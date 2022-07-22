@@ -40,20 +40,33 @@ viewController 라이프사이클
 - 메모리에서 없어진 것은 아닌 상태
 
 
+# 앱의 생명주기 ♼
+- 앱 레벨에서의 생명주기이며, 예시로 앱을 사용하면서 전화가 올 때 기존에 사용하던 앱의 데이터는 어떻게 처리해야하는가와 같은 앱 레벨의 특정시점에 대한 부분을 다루는 생명주기.
+- 앱의 생명주기는 ios12버전을 기준으로 구조가 바뀐다.
+- 이전에는 App Delegate에서 앱의 상태관리와 UI 라이프사이클 둘 다 다뤘지만, scene의 개념이 생기면서 이를 App Delegate와 Scene Delegate 두 개로 분리되었다.
 
+<p align="center">ios 12이전</p>
+<p align="center"><img width="714" alt="image" src="https://user-images.githubusercontent.com/70146658/180412218-5d3181f3-b365-4a3f-b3ce-9857e4e1688b.png"></p>
 
+<p align="center">ios 12이후</p>
+<p align="center">
+<img width="724" alt="image" src="https://user-images.githubusercontent.com/70146658/180412752-f64979f6-005e-418e-b761-282ad261c66d.png"></p>
+<p align="center">(해당 사진은 WWDC영상에서 가져왔습니다)</p>
 
+### 바뀐 appDelegate의 역할
+- 앱의 데이터 구조를 초기화하고 환경설정을 하는 것.
+- 앱 레벨에서의 알림 및 이벤트에 대응하는 것
+- 애플 푸쉬 알림 서비스와 같이 실행시 요구되는 모든 서비스를 등록하는것.
 
-
-
-
-
-
-
-
-
-
-
-
-
-#### 참고: https://subscription.packtpub.com/book/application-development/9781783550814/6/ch06lvl1sec60/uiviewcontroller-lifecycle-methods
+### sceneDelegate의 역할
+- AppDelegate에서 Scene Session을 통해서 scene에 대한 정보를 업데이트 받는다.
+- Scene Session에서는 scene을 요청할 때 scene을 추적하는 session 객체를 생성하고, 그 session 내부에서 고유한 식별자와 해당 scene의 세부사항이 들어있다. 
+- 즉 사용중인 앱이 잠시 background-running상태로 이동하거나, 비활성화 상태가 될 때, 비활성화에서 활성화상태로 이동할 때의 시점들을 sceneDelegate에서 처리하는 것이다.
+       
+       
+      
+      
+#### 참고:
+- https://subscription.packtpub.com/book/application-development/9781783550814/6/ch06lvl1sec60/uiviewcontroller-lifecycle-methods
+- https://developer.apple.com/documentation/uikit/uiapplicationdelegate
+- https://lena-chamna.netlify.app/post/appdelegate_and_scenedelegate/
