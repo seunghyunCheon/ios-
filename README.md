@@ -64,6 +64,23 @@ viewController 라이프사이클
 - 즉 사용중인 앱이 잠시 background-running상태로 이동하거나, 비활성화 상태가 될 때, 비활성화에서 활성화상태로 이동할 때의 시점들을 sceneDelegate에서 처리하는 것이다.
        
        
+
+# Drawing Cycle ♼
+<p align="center"><img width="645" alt="image" src="https://user-images.githubusercontent.com/70146658/180585977-cfa83f84-88d4-439c-aa7a-ea4985fd83ce.png"></p>
+<p align="center">View, ViewController life cycle</p>
+
+#### 메인 런루프, update cycle
+- 앱이 실행되면 1초에 60번씩 화면을 업데이트할 수 있는 무한 런루프가 생성이되고(0.1666초 주기), 이 런루프는 앱이 실행하는동안 계속해서 이벤트를 처리한다.
+- 어떠한 버튼을 누르면 UI의 크기를 변경시킨다고 가정해보자. 버튼을 누르면 이벤트가 런루프로 전달이 되고 런루프는 해당하는 핸들러를 찾아가서 실행한다. 그럼 이 핸들러 안에서 UI의 크기가 변경이 되는데 값을 변경하는 즉시 화면에 그려지는 것이 아니고 update cycle에서 변경이 되는 것이다.
+
+#### Drawing Cycle
+- 화면을 그리는 일에 관련된 사이클을 Drawing Cycle이라고 한다.
+- viewController가 관여하는 부분이 아닌 UIView가 관여하는 부분의 라이프사이클에는 크게 updateContraints, layoutSubView, draw 3가지로 나뉜다.
+- updateContraints에서는 autoLayout을 사용하여 화면에 그려질 요소들의 크기 및 배치를 결정한다. 일반적으로 함수에서 오토레이아웃 설정을 해주기때문에 많이 사용하지는 않고, 여러 제약들을 설정할 때 사용한다.
+- layoutSubView는 autoLayout이 아닌 프레임을 통해서 크기 및 배치를 결정하는 함수이다. 이 함수를 재정의해서 직접 호출하는 것은 비용이 많이들기 때문에(그 밑에 SubView들도 다시 그려짐), setNeedsLayout이나, layoutIfNeeded함수를 통해서 layoutSubView를 호출하는 식으로 사용한다.
+- draw는 실제 그리는 역할을 하며, 색상을 변경할 때와 같은 부분에 대해서 관여한다.
+
+
       
       
 #### 참고:
